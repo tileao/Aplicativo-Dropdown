@@ -1,0 +1,133 @@
+
+<!doctype html>
+<html lang="pt-br">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="styles.css">
+<title>AW139 – RTO & DropDown</title>
+<body>
+<div class="container">
+  <h1>AW139 — RTO & DropDown</h1>
+
+  <div class="card">
+    <div class="seg" role="tablist" aria-label="Modo">
+      <button id="tab-conv" class="active" data-mode="conv" role="tab" aria-selected="true">Convencional</button>
+      <button id="tab-enh" data-mode="enh" role="tab">Enhanced</button>
+      <button id="tab-rto" data-mode="rto" role="tab">RTO</button>
+    </div>
+
+    <div class="kb">Toque para alternar o modo. O resultado é atualizado ao digitar.</div>
+  </div>
+
+  <div class="card">
+    <div class="row">
+      <div class="col">
+        <label>Peso (GW)</label>
+        <div class="field">
+          <input id="gw" type="number" inputmode="numeric" value="6500" min="5000" max="8000" step="50">
+          <span class="unit">kg</span>
+        </div>
+      </div>
+      <div class="col">
+        <label>Temperatura (OAT)</label>
+        <div class="field">
+          <input id="oat" type="number" inputmode="numeric" value="25" step="1">
+          <span class="unit">°C</span>
+        </div>
+      </div>
+      <div class="col">
+        <label>Altitude de Pressão</label>
+        <div class="field">
+          <input id="alt" type="number" inputmode="numeric" value="0" step="50">
+          <span class="unit">ft</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <label>Vento reportado</label>
+        <div class="field">
+          <input id="wind" type="number" inputmode="numeric" value="0" step="1">
+          <span class="unit">kt</span>
+        </div>
+      </div>
+      <div class="col">
+        <label>Ângulo vs. trajetória (WRA)</label>
+        <div class="field">
+          <input id="wra" type="number" inputmode="numeric" value="0" step="1">
+          <span class="unit">°</span>
+        </div>
+      </div>
+      <div class="col">
+        <label>Decomposição de Vento</label>
+        <select id="windMode">
+          <option value="trig">Trigonométrica</option>
+          <option value="s97">Tabela S97 (arred.)</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" id="adv-card">
+    <details id="adv">
+      <summary><span class="summary-row">⚙️ Avançado <span class="hint" id="adv-hint"></span></span></summary>
+      <div class="row" style="margin-top:8px">
+        <div class="col" id="group-conv-enh">
+          <label>Correção vento (ft/kt)</label>
+          <input id="ftPerKt" type="number" value="-1" step="0.1">
+        </div>
+        <div class="col" id="group-desc">
+          <label>Trajetória descendente? (+15 ft)</label>
+          <select id="descending"><option>Não</option><option>Sim</option></select>
+        </div>
+        <div class="col" id="group-rto-1" style="display:none">
+          <label>RTO — Divisor do fator ( )</label>
+          <input id="rtoDiv" type="number" value="10" step="0.5">
+        </div>
+        <div class="col" id="group-rto-2" style="display:none">
+          <label>Filtro de admissão</label>
+          <select id="filter">
+            <option value="0">Nenhum</option>
+            <option value="110">EAPS OFF (+110 m)</option>
+            <option value="170">IBF (+170 m)</option>
+          </select>
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <div class="card">
+    <div class="result" id="result">–</div>
+    <div class="sub"><span id="unit">Selecione o modo e insira os dados</span></div>
+    <div class="sub" id="note"></div>
+    <div class="badges" style="margin-top:10px">
+      <div class="badge">Bilinear ALT×OAT</div>
+      <div class="badge">Wind trig/S97</div>
+      <div class="badge">Offline PWA</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="row">
+      <button id="exportBtn" class="btn secondary">Exportar db.json</button>
+      <label for="fileInput" class="btn secondary">Importar db.json</label>
+      <input id="fileInput" type="file" accept="application/json" style="display:none">
+    </div>
+    <div class="kb">Dica: exporte o banco para backup ou atualização em outra instalação.</div>
+  </div>
+</div>
+
+<div class="sticky">
+  <div class="bar">
+    <button id="calcBtn" class="btn primary">Calcular</button>
+    <button id="installBtn" class="btn secondary">Instalar</button>
+  </div>
+</div>
+
+<script src="app.js"></script>
+<script>if("serviceWorker" in navigator) navigator.serviceWorker.register("./sw.v7.js");</script>
+</body>
+</html>
